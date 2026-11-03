@@ -1,0 +1,24 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+group = 'com.lockedin.focusguard'
+version = '0.1.0'
+
+android {
+  namespace "com.lockedin.focusguard"
+  defaultConfig {
+    versionCode 1
+    versionName "0.1.0"
+  }
+  lintOptions {
+    abortOnError false
+  }
+}
+
+dependencies {
+  testImplementation 'junit:junit:4.13.2'
+  // org.json is stubbed in local JVM tests; use the real implementation.
+  testImplementation 'org.json:json:20240303'
+}
