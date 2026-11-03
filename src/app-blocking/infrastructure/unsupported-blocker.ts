@@ -6,8 +6,9 @@ import type { BlockerPort } from '../domain';
  */
 export const unsupportedBlocker: BlockerPort = {
   capabilities: { appBlocking: false, inAppFilters: false },
-  getStatus: async () => ({ serviceEnabled: false }),
+  getStatus: async () => ({ serviceEnabled: false, batteryUnrestricted: false }),
   openServiceSettings: async () => {},
+  openBatterySettings: async () => {},
   listLaunchableApps: async () => [],
   applyPolicy: async () => {},
 };

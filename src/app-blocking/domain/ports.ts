@@ -21,12 +21,17 @@ export type BlockerCapabilities = {
   inAppFilters: boolean;
 };
 
-export type BlockerStatus = { serviceEnabled: boolean };
+export type BlockerStatus = {
+  serviceEnabled: boolean;
+  /** Android battery optimization off, so OEMs do not kill the service. */
+  batteryUnrestricted: boolean;
+};
 
 export interface BlockerPort {
   readonly capabilities: BlockerCapabilities;
   getStatus(): Promise<BlockerStatus>;
   openServiceSettings(): Promise<void>;
+  openBatterySettings(): Promise<void>;
   listLaunchableApps(): Promise<InstalledApp[]>;
   applyPolicy(policy: BlockingPolicy): Promise<void>;
 }

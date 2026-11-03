@@ -44,6 +44,8 @@ export type FocusState = PersistedState & {
   endSession: () => void;
   /** Clears the session once its time is up. Call on app foreground and every tick. */
   syncClock: () => void;
+  /** Re-sends the saved policy to the native layer (app start, return to foreground). */
+  reapply: () => void;
 };
 
 export type FocusStore = StoreApi<FocusState>;
@@ -128,6 +130,8 @@ export function createFocusStore({ storage, blocker, notifier, clock }: FocusSto
         const { session } = get();
         if (session && !isActive(session, clock())) commit({ session: null });
       },
+
+      reapply: () => enforce(),
     };
   });
 }

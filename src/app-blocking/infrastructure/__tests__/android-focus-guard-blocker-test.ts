@@ -28,7 +28,7 @@ describe('Android FocusGuard blocker', () => {
 
   it('reports the accessibility service status and lists launchable apps', async () => {
     const blocker = createAndroidBlocker(fakeModule() as never);
-    await expect(blocker.getStatus()).resolves.toEqual({ serviceEnabled: true });
+    await expect(blocker.getStatus()).resolves.toEqual({ serviceEnabled: true, batteryUnrestricted: false });
     await expect(blocker.listLaunchableApps()).resolves.toEqual([{ packageName: 'com.zhiliaoapp.musically', label: 'TikTok' }]);
     expect(blocker.capabilities).toEqual({ appBlocking: true, inAppFilters: true });
   });

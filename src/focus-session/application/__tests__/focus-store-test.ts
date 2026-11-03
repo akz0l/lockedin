@@ -13,8 +13,9 @@ function setup(storage: KeyValueStorage = createMemoryStorage()) {
   const applied: BlockingPolicy[] = [];
   const blocker: BlockerPort = {
     capabilities: { appBlocking: true, inAppFilters: true },
-    getStatus: async () => ({ serviceEnabled: true }),
+    getStatus: async () => ({ serviceEnabled: true, batteryUnrestricted: true }),
     openServiceSettings: async () => {},
+    openBatterySettings: async () => {},
     listLaunchableApps: async () => [],
     applyPolicy: async (policy) => void applied.push(policy),
   };
@@ -28,6 +29,21 @@ function setup(storage: KeyValueStorage = createMemoryStorage()) {
     advance: (ms: number) => void (now += ms),
     lastPolicy: () => applied[applied.length - 1],
   };
+}
+
+function setupFailing() {
+  let failing = true;
+  const blocker: BlockerPort = {
+    capabilities: { appBlocking: true, inAppFilters: true },
+    getStatus: async () => ({ serviceEnabled: true, batteryUnrestricted: true }),
+    openServiceSettings: async () => {},
+    openBatterySettings: async () => {},
+    listLaunchableApps: async () => [],
+    applyPolicy: () => (failing ? Promise.reject(new Error('ERR_INVALID_POLICY')) : Promise.resolve()),
+  };
+  const notifier: SessionNotifier = { scheduleSessionEnd: async () => {}, cancelSessionEnd: async () => {} };
+  const store = createFocusStore({ storage: createMemoryStorage(), blocker, notifier, clock: () => T0 });
+  return { store, blockerFails: (value: boolean) => void (failing = value) };
 }
 
 describe('focus store', () => {
@@ -122,6 +138,31 @@ describe('focus store', () => {
     store.getState().setDuration(90);
     expect(store.getState().preferences.durationMinutes).toBe(25);
     expect(store.getState().session?.level).toBe('soft');
+  });
+
+  it('re-sends the saved policy to the native layer on demand (app start, foreground)', () => {
+    const first = setup();
+    first.store.getState().setFilter('instagramReels', false);
+    first.store.getState().startSession();
+
+    const second = setup(first.storage);
+    expect(second.applied).toHaveLength(0);
+    second.store.getState().reapply();
+
+    expect(second.lastPolicy().filters.instagramReels).toBe(false);
+    expect(second.lastPolicy().session?.endsAt).toBe(T0 + 25 * MIN);
+  });
+
+  it('records a native enforcement failure and clears it on the next success', async () => {
+    const { store, blockerFails } = setupFailing();
+    store.getState().setFilter('youtubeShorts', false);
+    await Promise.resolve();
+    expect(store.getState().enforcementError).toBe('ERR_INVALID_POLICY');
+
+    blockerFails(false);
+    store.getState().setFilter('youtubeShorts', true);
+    await Promise.resolve();
+    expect(store.getState().enforcementError).toBeNull();
   });
 
   it('ignores a corrupted saved state and starts from defaults', () => {

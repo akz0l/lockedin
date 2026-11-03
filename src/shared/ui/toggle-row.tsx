@@ -27,6 +27,7 @@ export function ToggleRow({ label, description, value, onValueChange, disabled }
       </View>
       <Switch
         aria-label={label}
+        aria-disabled={disabled}
         value={value}
         onValueChange={onValueChange}
         disabled={disabled}

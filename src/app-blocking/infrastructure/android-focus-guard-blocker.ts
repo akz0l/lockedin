@@ -6,9 +6,10 @@ export function createAndroidBlocker(module: NonNullable<typeof FocusGuard>): Bl
     capabilities: { appBlocking: true, inAppFilters: true },
     getStatus: async () => {
       const status = await module.getStatus();
-      return { serviceEnabled: status.serviceEnabled };
+      return { serviceEnabled: status.serviceEnabled, batteryUnrestricted: status.ignoringBatteryOptimizations };
     },
     openServiceSettings: () => module.openAccessibilitySettings(),
+    openBatterySettings: () => module.openBatteryOptimizationSettings(),
     listLaunchableApps: () => module.listLaunchableApps(),
     applyPolicy: (policy) => module.applyPolicy(JSON.stringify(policy)),
   };

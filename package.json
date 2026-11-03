@@ -44,7 +44,7 @@
   "private": true,
   "jest": {
     "preset": "jest-expo",
-    "setupFiles": [
+    "setupFilesAfterEnv": [
       "<rootDir>/jest.setup.ts"
     ],
     "testPathIgnorePatterns": [
