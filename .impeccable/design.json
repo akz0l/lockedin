@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-03T23:30:00Z",
+  "title": "Design System: LockedIn",
+  "extensions": {
+    "colorMeta": {
+      "ink": { "role": "primary", "displayName": "Ink" },
+      "ground": { "role": "neutral", "displayName": "Ground" },
+      "surface": { "role": "neutral", "displayName": "Surface" },
+      "hairline": { "role": "neutral", "displayName": "Hairline" },
+      "success": { "role": "status", "displayName": "On / Soft" },
+      "warning": { "role": "status", "displayName": "Needs attention / Firm" },
+      "danger": { "role": "status", "displayName": "Strict / Failure" },
+      "muted": { "role": "status", "displayName": "Off" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display numerals", "purpose": "Duration and countdown only, tabular figures." },
+      "large-title": { "displayName": "Large title", "purpose": "Native large titles on top-level screens." }
+    },
+    "motion": [
+      { "name": "none", "value": "native", "purpose": "Only system transitions (stack push, sheets, tabs); no custom animation." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one solid action per screen.",
+      "html": "<button class=\"li-btn\">Lock in</button>",
+      "css": ".li-btn { width: 100%; height: 52px; border: 0; border-radius: 12px; background: #000; color: #fff; font: 600 17px/22px system-ui; }"
+    },
+    {
+      "name": "Segmented Control",
+      "kind": "custom",
+      "refersTo": "segmented-selected",
+      "description": "Radio group for duration presets and block level.",
+      "html": "<div class=\"li-seg\"><span class=\"on\">Soft</span><span>Firm</span><span>Strict</span></div>",
+      "css": ".li-seg { display: flex; gap: 3px; padding: 3px; border-radius: 10px; background: #F0F0F0; font: 15px/20px system-ui; } .li-seg span { flex: 1; text-align: center; padding: 11px 0; border-radius: 8px; color: #5F5F5F; } .li-seg .on { background: #fff; color: #000; font-weight: 600; box-shadow: inset 0 0 0 1px #E5E5E5; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The instrument, not the wellness app",
+    "overview": "Monochrome ink and paper in the Vercel and Uber school: one decision per screen, state legible in a second, color only for status.",
+    "keyCharacteristics": [
+      "Pure black and white grounds",
+      "Giant tabular Geist numerals as the one display moment",
+      "Native tabs, stacks, switches and symbols",
+      "One solid ink button per screen",
+      "A 2px lock line drains across every screen during a session"
+    ],
+    "rules": [
+      { "name": "The Status-Only Color Rule", "body": "Color states on, needs attention, strict or off, always next to words saying the same.", "section": "colors" },
+      { "name": "The No-Kicker Rule", "body": "No eyebrow labels above headings or numbers.", "section": "typography" }
+    ],
+    "dos": ["Use platform controls and icons", "Name the action and the cost of each level"],
+    "donts": ["No streaks, scores, mascots or progress rings", "No shadows, gradients or glass", "Never promise a block the OS cannot enforce"]
+  }
+}
