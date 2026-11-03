@@ -42,6 +42,14 @@ Expo Go does not work: the app has native code (the `focus-guard` module).
 | Filters stop working after a while | Battery settings → LockedIn → **Unrestricted**. The permissions screen links there |
 | Reels open again after an Instagram update | The view ids changed. See [Detection rules](#detection-rules) |
 
+## Known limitations
+
+| Limitation | Why |
+|------------|-----|
+| Changing the phone's date or time forward ends a session early | Sessions use the wall clock on both sides |
+| The end-of-session notification can arrive a few minutes late on Android 12+ | Exact alarms need the `SCHEDULE_EXACT_ALARM` permission, which the app does not request. Unblocking is not affected |
+| View ids, Instagram's web layout and the Kotlin module have not been tested on a device yet | No Android or iOS toolchain was available while building the MVP |
+
 ## Detection rules
 
 The Android service recognises screens by view ids. Apps rename them in updates, so they live in one table: `modules/focus-guard/android/src/main/java/com/lockedin/focusguard/detection/DetectionRules.kt`.
