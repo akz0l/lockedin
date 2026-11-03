@@ -7,7 +7,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { useFocus } from '@/app-composition';
 import { isActive } from '@/focus-session/domain';
 import { formatClockTime, formatCountdown } from '@/focus-session/ui/format';
-import { useNow } from '@/focus-session/ui/use-now';
+import { useSessionNow } from '@/focus-session/ui/use-now';
 import { radius, space, useTheme } from '@/shared/theme';
 import { AppText, Button } from '@/shared/ui';
 
@@ -27,7 +27,7 @@ export function CleanInstagramScreen() {
       explore: filters.instagramExplore,
     })),
   );
-  const now = useNow(session !== null);
+  const now = useSessionNow(session);
   const [failed, setFailed] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
   const notice = useNotice();

@@ -3,6 +3,6 @@
     android:description="@string/focus_guard_service_description"
     android:accessibilityEventTypes="typeWindowStateChanged|typeWindowContentChanged|typeViewScrolled"
     android:accessibilityFeedbackType="feedbackGeneric"
-    android:accessibilityFlags="flagReportViewIds"
+    android:accessibilityFlags="flagReportViewIds|flagIncludeNotImportantViews"
     android:canRetrieveWindowContent="true"
     android:notificationTimeout="150" />

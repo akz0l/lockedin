@@ -80,6 +80,14 @@ class EnforcerTest {
   }
 
   @Test
+  fun `names a blocked app from the event alone, before any window is read`() {
+    assertEquals(tiktok, Enforcer.blockedApp(tiktok, session(BlockLevel.FIRM), now, own))
+    assertEquals(null, Enforcer.blockedApp(INSTAGRAM, session(BlockLevel.FIRM), now, own))
+    assertEquals(null, Enforcer.blockedApp(tiktok, session(BlockLevel.FIRM, endsAt = now), now, own))
+    assertEquals(null, Enforcer.blockedApp(own, allFilters.copy(session = SessionPolicy(now + 1, BlockLevel.SOFT, setOf(own))), now, own))
+  }
+
+  @Test
   fun `strict sessions guard settings screens that mention LockedIn`() {
     val settings = ScreenSnapshot("com.android.settings", EventKind.WINDOW_CHANGED, texts = listOf("Accessibility", "LockedIn"))
     val wifi = ScreenSnapshot("com.android.settings", EventKind.WINDOW_CHANGED, texts = listOf("Wi-Fi"))

@@ -11,6 +11,7 @@ import {
   type FocusSession,
   isActive,
   isValidDuration,
+  MAX_DURATION_MINUTES,
   requestExit,
 } from '@/focus-session/domain';
 import type { KeyValueStorage } from '@/shared/storage/key-value-storage';
@@ -208,6 +209,8 @@ function parseSession(value: unknown): FocusSession | null {
   if (typeof startedAt !== 'number' || typeof endsAt !== 'number' || !isLevel(level) || !isStringArray(blockedPackages)) {
     return null;
   }
+  // A saved session can never be longer than one the app could have started.
+  if (endsAt <= startedAt || endsAt - startedAt > MAX_DURATION_MINUTES * 60_000) return null;
   return {
     startedAt,
     endsAt,

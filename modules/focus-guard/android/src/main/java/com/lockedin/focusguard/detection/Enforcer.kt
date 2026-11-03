@@ -24,6 +24,12 @@ object Enforcer {
     return FILTER_RULES.any { it.packageName == packageName && it.filter in policy.enabledFilters }
   }
 
+  /** Session app blocking needs only the package, so it never waits for the window tree. */
+  fun blockedApp(packageName: String, policy: Policy, now: Long, ownPackage: String): String? {
+    if (packageName == ownPackage) return null
+    return packageName.takeIf { policy.activeSession(now)?.blockedPackages?.contains(it) == true }
+  }
+
   fun decide(screen: ScreenSnapshot, policy: Policy, now: Long, ownPackage: String, ownLabel: String): Decision {
     if (screen.packageName == ownPackage) return Decision.None
 

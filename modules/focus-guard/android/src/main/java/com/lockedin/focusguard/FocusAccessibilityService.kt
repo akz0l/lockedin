@@ -30,6 +30,12 @@ class FocusAccessibilityService : AccessibilityService() {
     if (!Enforcer.needsInspection(eventPackage, policy, now, packageName)) return
     if (now - lastActionAt < DEBOUNCE_MS) return
 
+    Enforcer.blockedApp(eventPackage, policy, now, packageName)?.let { blocked ->
+      blockApp(blocked)
+      lastActionAt = now
+      return
+    }
+
     val kind = when (event.eventType) {
       AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> EventKind.WINDOW_CHANGED
       AccessibilityEvent.TYPE_VIEW_SCROLLED -> EventKind.SCROLLED
@@ -47,10 +53,7 @@ class FocusAccessibilityService : AccessibilityService() {
         performGlobalAction(GLOBAL_ACTION_BACK)
         toast("${featureName(decision.filter)} are off in $ownLabel")
       }
-      is Decision.BlockApp -> {
-        performGlobalAction(GLOBAL_ACTION_HOME)
-        startActivity(BlockActivity.intent(this, decision.packageName))
-      }
+      is Decision.BlockApp -> blockApp(decision.packageName)
       Decision.GuardSettings -> {
         performGlobalAction(GLOBAL_ACTION_HOME)
         toast("Strict session: settings for $ownLabel are locked")
@@ -60,6 +63,11 @@ class FocusAccessibilityService : AccessibilityService() {
   }
 
   override fun onInterrupt() = Unit
+
+  private fun blockApp(blockedPackage: String) {
+    performGlobalAction(GLOBAL_ACTION_HOME)
+    startActivity(BlockActivity.intent(this, blockedPackage))
+  }
 
   private fun toast(message: String) = Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
 

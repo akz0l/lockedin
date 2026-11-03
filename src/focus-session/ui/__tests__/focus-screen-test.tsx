@@ -81,6 +81,22 @@ describe('FocusScreen', () => {
     expect(screen.getByRole('button', { name: 'Lock in' })).toBeOnTheScreen();
   });
 
+  it('never offers End session before the store allows it', async () => {
+    const services = await renderWithServices(<FocusScreen />);
+    await act(() => jest.advanceTimersByTime(30));
+    await user().press(screen.getByRole('button', { name: 'Lock in' }));
+    await act(() => jest.advanceTimersByTime(40));
+    await user().press(screen.getByRole('button', { name: 'End early' }));
+
+    // A screen tick lands 40 ms before the 10-second pause ends.
+    await act(() => jest.advanceTimersByTime(9_960));
+    expect(screen.queryByRole('button', { name: 'End session' })).not.toBeOnTheScreen();
+
+    await act(() => jest.advanceTimersByTime(1_000));
+    await user().press(screen.getByRole('button', { name: 'End session' }));
+    expect(services.store.getState().session).toBeNull();
+  });
+
   it('a strict session offers no way to end early', async () => {
     const services = await renderWithServices(<FocusScreen />);
     await user().press(screen.getByRole('radio', { name: 'Strict' }));

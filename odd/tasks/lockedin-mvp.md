@@ -29,13 +29,13 @@ Plan: `~/.claude/plans/eres-mi-ingeniero-desarrollador-eventual-sunrise.md`
 
 | ID | Specs | Task | Route | Status | Evidence |
 |----|-------|------|-------|--------|----------|
-| T1 | S4, S5, S6 | Scaffold Expo SDK 58 (TS, expo-router in `src/app`, jest-expo + RNTL 14) | inline | done | jest 1/1, tsc clean; README moved to T7 |
-| T2 | S3 | Design system: impeccable context, PRODUCT.md, DESIGN.md, tokens, Geist, atoms | inline | pending | |
-| T3 | S1, S2, S5, S7, S8 | Domain + persistence: FocusSession, levels, early-end rules, filters, focus store over kv-store | inline | done | RED (modules missing) → GREEN 33/33 jest; tsc clean |
-| T4 | S2, S7 | Android native module `focus-guard`: service, PolicyStore, BlockActivity, detectors, SettingsGuard, app list | inline | done (unverified native) | JS contract test 2/2; JUnit written, NOT run (no JDK); Kotlin not compiled |
-| T5 | S1, S2, S7, S9 | Screens: Focus (setup + active), custom duration, Filters, Blocked apps, Permissions onboarding | inline | done | jest 64/64 (RED: reapply, battery status, stale countdown 0:11, switch a11y disabled); tsc clean |
-| T6 | S2, S9 | iOS clean Instagram WebView with injection | inline | done | RED (module missing) → GREEN; jest 92/92; tsc clean; on-device check pending (no Xcode) |
-| T7 | S3, S8 | Session-end notification, haptics, polish, impeccable native audit, README, DESIGN.md | inline | done | jest 93/93, tsc, eslint, expo-doctor 20/20; native audit 14/20 (static, no simulator) |
+| T1 | S4, S5, S6 | Scaffold Expo SDK 58 (TS, expo-router in `src/app`, jest-expo + RNTL 14) | inline | done | jest 1/1, tsc clean; README moved to T7 · `b071d04` |
+| T2 | S3 | Design system: impeccable context, PRODUCT.md, surface brief, tokens, Geist, atoms (DESIGN.md at finish, T7) | inline | done | jest 6/6 atoms; tsc clean · `b0e6a4b` |
+| T3 | S1, S2, S5, S7, S8 | Domain + persistence: FocusSession, levels, early-end rules, filters, focus store over kv-store | inline | done | RED (modules missing) → GREEN 33/33 jest; tsc clean · `ff256ce` |
+| T4 | S2, S7 | Android native module `focus-guard`: service, PolicyStore, BlockActivity, detectors, SettingsGuard, app list | inline | done (unverified native) | JS contract test 2/2; JUnit written, NOT run (no JDK); Kotlin not compiled · `3fae31c` (reviewed, approved), `1a37731` |
+| T5 | S1, S2, S7, S9 | Screens: Focus (setup + active), custom duration, Filters, Blocked apps, Permissions onboarding | inline | done | jest 64/64 (RED: reapply, battery status, stale countdown 0:11, switch a11y disabled); tsc clean · `1c603b8` |
+| T6 | S2, S9 | iOS clean Instagram WebView with injection | inline | done | RED (module missing) → GREEN; jest 92/92; tsc clean; on-device check pending (no Xcode) · `375aa66` |
+| T7 | S3, S8 | Session-end notification, haptics, polish, impeccable native audit, README, DESIGN.md | inline | done | jest 93/93, tsc, eslint, expo-doctor 20/20; native audit 14/20 (static, no simulator) · `eddbed8`, `6c12147` |
 
 Route evidence: no Writer trigger reason (units depend on shared domain/design system; parent writes inline following this logbook).
 

@@ -165,6 +165,15 @@ describe('focus store', () => {
     expect(store.getState().enforcementError).toBeNull();
   });
 
+  it.each([
+    ['ends before it starts', { startedAt: T0, endsAt: T0 - 1 }],
+    ['runs longer than the 480 minute maximum', { startedAt: T0, endsAt: T0 + 481 * MIN }],
+  ])('drops a saved session that %s', (_case, times) => {
+    const session = { ...times, level: 'strict', blockedPackages: [], exitRequestedAt: null };
+    const { store } = setup(createMemoryStorage({ [STORAGE_KEY]: JSON.stringify({ session }) }));
+    expect(store.getState().session).toBeNull();
+  });
+
   it('ignores a corrupted saved state and starts from defaults', () => {
     const { store } = setup(createMemoryStorage({ [STORAGE_KEY]: '{not json' }));
     expect(store.getState().session).toBeNull();

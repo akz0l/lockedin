@@ -14,7 +14,7 @@ import { AppText, Button, ListGroup, NavRow } from '@/shared/ui';
 import { ActiveSession } from './components/active-session';
 import { ProtectionRow } from './components/protection-row';
 import { SessionSetup } from './components/session-setup';
-import { useNow } from './use-now';
+import { useSessionNow } from './use-now';
 
 export function FocusScreen() {
   const router = useRouter();
@@ -34,7 +34,7 @@ export function FocusScreen() {
       syncClock,
     })),
   );
-  const now = useNow(session !== null);
+  const now = useSessionNow(session);
   const activeSession = session && isActive(session, now) ? session : null;
   const apps = useInstalledApps(blocker.capabilities.appBlocking);
 
