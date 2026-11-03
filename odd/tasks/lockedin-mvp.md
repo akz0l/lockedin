@@ -31,7 +31,7 @@ Plan: `~/.claude/plans/eres-mi-ingeniero-desarrollador-eventual-sunrise.md`
 |----|-------|------|-------|--------|----------|
 | T1 | S4, S5, S6 | Scaffold Expo SDK 58 (TS, expo-router in `src/app`, jest-expo + RNTL 14) | inline | done | jest 1/1, tsc clean; README moved to T7 |
 | T2 | S3 | Design system: impeccable context, PRODUCT.md, DESIGN.md, tokens, Geist, atoms | inline | pending | |
-| T3 | S1, S2, S5, S7, S8 | Domain + persistence: FocusSession, levels, early-end rules, filters, MMKV store | inline | pending | |
+| T3 | S1, S2, S5, S7, S8 | Domain + persistence: FocusSession, levels, early-end rules, filters, focus store over kv-store | inline | done | RED (modules missing) → GREEN 33/33 jest; tsc clean |
 | T4 | S2, S7 | Android native module `focus-guard`: service, PolicyStore, BlockActivity, detectors, SettingsGuard, app list | inline | pending | |
 | T5 | S1, S2, S7, S9 | Screens: Home, Configure, Active session, Filters, Permissions onboarding | inline | pending | |
 | T6 | S2, S9 | iOS clean Instagram WebView with injection | inline | pending | |
@@ -61,3 +61,5 @@ Route evidence: no Writer trigger reason (units depend on shared domain/design s
 - **L4 (2026-11-03, user question verbatim):** "¿Seguro que no se puede bloquear la funcionalidad de reels de instagram en iphone? ¿ qué otras opciones tenemos antes de bloquear toda la app? Lo que quiero es eliminar el brainrot y doomscrolling de las apps". Verified: no public iOS API for in-app feature blocking (one sec docs); market uses WebView wrapper + Screen Time, Safari extensions, or screen recording.
 - **L5 (2026-11-03, environment):** Mac has no Xcode, no Android Studio/SDK, no JDK. Native compile and device checks are pending until the user installs them. JS tests and typecheck run locally.
 - **L6 (2026-11-03, T1):** Expo SDK 58 / RN 0.88 / React 19.3. Routes live in `src/app/` (SDK 58 convention). Storage switched from MMKV to `expo-sqlite/kv-store` behind a storage port (official Expo module, sync API, SDK-matched). `react-dom` pinned to 19.3.0 to fix a transitive peer conflict; RNTL 14 needs `test-renderer` and async `render`/`fireEvent`.
+- **L7 (2026-11-03, T2):** impeccable: PRODUCT.md written (platform `adaptive`) from the planning answers; direction pinned by the user brief ("inspirado en vercel o uber"), so concept-seed was not run and Operate mode rules apply; surface brief holds the direction contract. DESIGN.md is written at finish per the skill.
+- **L8 (2026-11-03, T3, interpretation of S7):** every early exit goes through a wait counted from the user's request: Soft 10 s, Firm 5 min, Strict denied. Settings (duration, level, apps) are locked while a session runs; filters stay editable. Persisted state is validated on load; corrupted data falls back to defaults.
