@@ -37,4 +37,9 @@ class PolicyTest {
   fun `rejects an unknown level`() {
     Policy.parse("""{"filters":{},"session":{"endsAt":1,"level":"extreme","blockedPackages":[]}}""")
   }
+
+  @Test(expected = IllegalArgumentException::class)
+  fun `rejects a blocked entry that is not a package name`() {
+    Policy.parse("""{"filters":{},"session":{"endsAt":1,"level":"soft","blockedPackages":["not a package"]}}""")
+  }
 }

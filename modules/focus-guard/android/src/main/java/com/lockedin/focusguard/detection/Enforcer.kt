@@ -21,7 +21,7 @@ object Enforcer {
       if (packageName in session.blockedPackages) return true
       if (session.level == BlockLevel.STRICT && packageName in GUARDED_PACKAGES) return true
     }
-    return policy.enabledFilters.isNotEmpty() && packageName in FILTERED_PACKAGES
+    return FILTER_RULES.any { it.packageName == packageName && it.filter in policy.enabledFilters }
   }
 
   fun decide(screen: ScreenSnapshot, policy: Policy, now: Long, ownPackage: String, ownLabel: String): Decision {

@@ -55,5 +55,3 @@ val GUARDED_PACKAGES: Set<String> = setOf(
   "com.samsung.android.packageinstaller",
   "com.miui.securitycenter",
 )
-
-val FILTERED_PACKAGES: Set<String> = FILTER_RULES.map { it.packageName }.toSet()

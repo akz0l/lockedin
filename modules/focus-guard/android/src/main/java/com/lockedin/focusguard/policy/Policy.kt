@@ -36,6 +36,8 @@ data class Policy(
   companion object {
     val EMPTY = Policy(enabledFilters = emptySet(), session = null)
 
+    private val PACKAGE_NAME = Regex("^[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)+$")
+
     /** Throws [IllegalArgumentException] when the JSON does not match the contract. */
     fun parse(json: String): Policy {
       val root = try {
@@ -57,6 +59,9 @@ data class Policy(
       val packages = session.optJSONArray("blockedPackages")
       val blocked = buildSet {
         if (packages != null) for (index in 0 until packages.length()) add(packages.getString(index))
+      }
+      blocked.firstOrNull { !PACKAGE_NAME.matches(it) }?.let {
+        throw IllegalArgumentException("Blocked entry is not a package name: $it")
       }
       return SessionPolicy(endsAt = endsAt, level = level, blockedPackages = blocked)
     }

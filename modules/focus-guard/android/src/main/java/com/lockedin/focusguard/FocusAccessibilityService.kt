@@ -1,6 +1,7 @@
 package com.lockedin.focusguard
 
 import android.accessibilityservice.AccessibilityService
+import android.os.Build
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
 import com.lockedin.focusguard.detection.Decision
@@ -37,6 +38,8 @@ class FocusAccessibilityService : AccessibilityService() {
     val root = rootInActiveWindow ?: return
     val screenPackage = root.packageName?.toString() ?: eventPackage
     val screen = SnapshotReader.read(root, screenPackage, kind, collectTexts = screenPackage in GUARDED_PACKAGES)
+    @Suppress("DEPRECATION")
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) root.recycle()
 
     when (val decision = Enforcer.decide(screen, policy, now, packageName, ownLabel)) {
       Decision.None -> return

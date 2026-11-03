@@ -103,4 +103,11 @@ class EnforcerTest {
     assertTrue(Enforcer.needsInspection("com.android.settings", session(BlockLevel.STRICT), now, own))
     assertFalse(Enforcer.needsInspection("com.android.settings", session(BlockLevel.FIRM), now, own))
   }
+
+  @Test
+  fun `only inspects an app whose own filter is on`() {
+    val shortsOnly = Policy(setOf(FilterId.YOUTUBE_SHORTS), session = null)
+    assertTrue(Enforcer.needsInspection(YOUTUBE, shortsOnly, now, own))
+    assertFalse(Enforcer.needsInspection(INSTAGRAM, shortsOnly, now, own))
+  }
 }
