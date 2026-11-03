@@ -42,6 +42,18 @@ describe('FocusScreen', () => {
     expect(useRouter().push).toHaveBeenCalledWith('/duration');
   });
 
+  it('reopens the custom duration sheet when a custom duration is already set', async () => {
+    const services = createTestServices();
+    services.store.getState().setDuration(35);
+    await renderWithServices(<FocusScreen />, services);
+
+    const custom = screen.getByRole('radio', { name: '35 min' });
+    expect(custom).toBeChecked();
+    await user().press(custom);
+
+    expect(useRouter().push).toHaveBeenCalledWith('/duration');
+  });
+
   it('sends the user to turn on blocking instead of starting a session when the service is off', async () => {
     const services = createTestServices({ status: { serviceEnabled: false, batteryUnrestricted: false } });
     await renderWithServices(<FocusScreen />, services);
@@ -61,6 +73,8 @@ describe('FocusScreen', () => {
     expect(screen.getByRole('status')).toHaveTextContent('You can end the session in 0:10.');
 
     await act(() => jest.advanceTimersByTime(10_000));
+    // The screen refreshes on its one-second tick, so the button appears within a second.
+    await act(() => jest.advanceTimersByTime(1_000));
     await user().press(screen.getByRole('button', { name: 'End session' }));
 
     expect(services.store.getState().session).toBeNull();
@@ -74,7 +88,7 @@ describe('FocusScreen', () => {
 
     await user().press(screen.getByRole('button', { name: 'Lock in' }));
 
-    expect(screen.getByText("Strict sessions can't be ended early.")).toBeOnTheScreen();
+    expect(screen.getByText('Strict sessions can’t be ended early.')).toBeOnTheScreen();
     expect(screen.queryByRole('button', { name: 'End early' })).not.toBeOnTheScreen();
     expect(services.store.getState().session?.level).toBe('strict');
   });

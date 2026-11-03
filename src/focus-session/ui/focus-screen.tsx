@@ -7,6 +7,7 @@ import { useBlocker, useBlockerStatus, useFocus } from '@/app-composition';
 import type { InstalledApp } from '@/app-blocking/domain';
 import { FILTERS } from '@/content-filters/domain';
 import { earlyExit, isActive } from '@/focus-session/domain';
+import { haptics } from '@/shared/feedback/haptics';
 import { space } from '@/shared/theme';
 import { AppText, Button, ListGroup, NavRow } from '@/shared/ui';
 
@@ -33,7 +34,7 @@ export function FocusScreen() {
       syncClock,
     })),
   );
-  const now = useNow(session !== null, 1000, session);
+  const now = useNow(session !== null);
   const activeSession = session && isActive(session, now) ? session : null;
   const apps = useInstalledApps(blocker.capabilities.appBlocking);
 
@@ -44,8 +45,12 @@ export function FocusScreen() {
   const needsService = blocker.capabilities.inAppFilters && status !== null && !status.serviceEnabled;
 
   const lockIn = () => {
-    if (needsService) router.push('/permissions');
-    else actions.startSession();
+    if (needsService) {
+      router.push('/permissions');
+      return;
+    }
+    actions.startSession();
+    haptics.sessionStarted();
   };
 
   return (
@@ -75,6 +80,7 @@ export function FocusScreen() {
           onEnd={() => {
             try {
               actions.endSession();
+              haptics.sessionEnded();
             } catch (error) {
               console.warn('Session could not end yet', error);
             }
@@ -135,7 +141,7 @@ function useInstalledApps(enabled: boolean): InstalledApp[] {
 }
 
 const styles = StyleSheet.create({
-  content: { flexGrow: 1, padding: space.lg, paddingBottom: space.xxl, gap: space.xxl },
+  content: { flexGrow: 1, width: '100%', maxWidth: 560, alignSelf: 'center', padding: space.lg, paddingBottom: space.xxl, gap: space.xxl },
   status: { gap: space.xs },
   spacer: { flexGrow: 1 },
 });

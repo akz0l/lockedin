@@ -1,4 +1,5 @@
 import * as Notifications from 'expo-notifications';
+import { AndroidImportance, SchedulableTriggerInputTypes } from 'expo-notifications';
 import { Platform } from 'react-native';
 
 import type { SessionNotifier } from '../application/ports';
@@ -30,14 +31,14 @@ export const expoSessionNotifier: SessionNotifier = {
       if (Platform.OS === 'android') {
         await Notifications.setNotificationChannelAsync(CHANNEL_ID, {
           name: 'Focus sessions',
-          importance: Notifications.AndroidImportance.DEFAULT,
+          importance: AndroidImportance.DEFAULT,
         });
       }
       await Notifications.cancelScheduledNotificationAsync(NOTIFICATION_ID);
       await Notifications.scheduleNotificationAsync({
         identifier: NOTIFICATION_ID,
         content: { title: 'Focus session complete', body: 'Your apps are unlocked.' },
-        trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: endsAt, channelId: CHANNEL_ID },
+        trigger: { type: SchedulableTriggerInputTypes.DATE, date: endsAt, channelId: CHANNEL_ID },
       });
     } catch (error) {
       console.warn('Could not schedule the session end notification', error);

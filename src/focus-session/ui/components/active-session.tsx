@@ -55,7 +55,7 @@ function EndControl({
     case 'denied':
       return (
         <AppText variant="footnote" color="textSecondary">
-          Strict sessions can't be ended early.
+          Strict sessions can’t be ended early.
         </AppText>
       );
     case 'request-required':

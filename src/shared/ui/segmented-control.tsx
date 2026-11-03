@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 
+import { haptics } from '@/shared/feedback/haptics';
 import { minTouchTarget, radius, useTheme } from '@/shared/theme';
 
 import { AppText } from './app-text';
@@ -38,7 +39,10 @@ export function SegmentedControl<T extends string>({
             aria-checked={selected}
             aria-disabled={disabled}
             disabled={disabled}
-            onPress={() => onChange(option.value)}
+            onPress={() => {
+              if (!selected) haptics.selection();
+              onChange(option.value);
+            }}
             style={[
               styles.segment,
               selected && {

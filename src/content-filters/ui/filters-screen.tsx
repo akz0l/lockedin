@@ -23,7 +23,7 @@ export function FiltersScreen() {
       {inApp && status && !status.serviceEnabled ? (
         <ProtectionRow
           tone="warning"
-          text="Blocking is off, so filters can't work yet"
+          text="Blocking is off, so filters can’t work yet"
           action={{ label: 'Turn on', onPress: () => router.push('/permissions') }}
         />
       ) : null}
@@ -63,5 +63,5 @@ export function FiltersScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { padding: space.lg, gap: space.xl },
+  content: { width: '100%', maxWidth: 560, alignSelf: 'center', padding: space.lg, gap: space.xl },
 });

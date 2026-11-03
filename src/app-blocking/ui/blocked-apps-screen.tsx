@@ -5,6 +5,7 @@ import { useShallow } from 'zustand/react/shallow';
 import type { InstalledApp } from '@/app-blocking/domain';
 import { useBlocker, useFocus } from '@/app-composition';
 import { isActive } from '@/focus-session/domain';
+import { useNow } from '@/focus-session/ui/use-now';
 import { minTouchTarget, radius, space, type as typeScale, useTheme } from '@/shared/theme';
 import { AppText, Button, ToggleRow } from '@/shared/ui';
 
@@ -22,17 +23,24 @@ export function BlockedAppsScreen() {
   );
   const [state, setState] = useState<LoadState>({ kind: 'loading' });
   const [query, setQuery] = useState('');
-  const locked = session !== null && isActive(session, Date.now());
+  const now = useNow(session !== null);
+  const locked = session !== null && isActive(session, now);
 
-  const load = useCallback(() => {
-    setState({ kind: 'loading' });
+  const fetchApps = useCallback(() => {
     blocker.listLaunchableApps().then(
       (apps) => setState({ kind: 'ready', apps }),
       () => setState({ kind: 'error' }),
     );
   }, [blocker]);
 
-  useEffect(load, [load]);
+  useEffect(() => {
+    fetchApps();
+  }, [fetchApps]);
+
+  const retry = () => {
+    setState({ kind: 'loading' });
+    fetchApps();
+  };
 
   const visible = useMemo(() => {
     if (state.kind !== 'ready') return [];
@@ -54,8 +62,8 @@ export function BlockedAppsScreen() {
   if (state.kind === 'error') {
     return (
       <View style={[styles.center, styles.gap]}>
-        <AppText color="textSecondary">Couldn't load your apps.</AppText>
-        <Button variant="secondary" label="Try again" onPress={load} />
+        <AppText color="textSecondary">Couldn’t load your apps.</AppText>
+        <Button variant="secondary" label="Try again" onPress={retry} />
       </View>
     );
   }
@@ -71,7 +79,7 @@ export function BlockedAppsScreen() {
         <View style={styles.gap}>
           {locked ? (
             <AppText variant="footnote" color="textSecondary" role="status">
-              Blocked apps can't change during a session.
+              Blocked apps can’t change during a session.
             </AppText>
           ) : null}
           <TextInput
@@ -113,7 +121,7 @@ export function BlockedAppsScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { padding: space.lg, gap: space.sm },
+  content: { width: '100%', maxWidth: 560, alignSelf: 'center', padding: space.lg, gap: space.sm },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: space.xl },
   gap: { gap: space.md },
   search: {

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AccessibilityInfo, Linking, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView, type WebViewMessageEvent } from 'react-native-webview';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -20,7 +20,6 @@ const FEATURE_NAME = { reels: 'Reels are', explore: 'Explore is' } as const;
 
 export function CleanInstagramScreen() {
   const { colors } = useTheme();
-  const { top } = useSafeAreaInsets();
   const { session, reels, explore } = useFocus(
     useShallow(({ session, filters }) => ({
       session,
@@ -28,7 +27,7 @@ export function CleanInstagramScreen() {
       explore: filters.instagramExplore,
     })),
   );
-  const now = useNow(session !== null, 1000, session);
+  const now = useNow(session !== null);
   const [failed, setFailed] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
   const notice = useNotice();
@@ -37,20 +36,20 @@ export function CleanInstagramScreen() {
 
   if (session && isActive(session, now)) {
     return (
-      <View style={[styles.center, { paddingTop: top }]}>
+      <SafeAreaView edges={['top', 'bottom']} style={styles.center}>
         <AppText variant="title">Locked in</AppText>
         <AppText variant="display" tabular role="timer">
           {formatCountdown(session.endsAt - now)}
         </AppText>
         <AppText color="textSecondary">Instagram opens again at {formatClockTime(session.endsAt)}.</AppText>
-      </View>
+      </SafeAreaView>
     );
   }
 
   if (failed) {
     return (
-      <View style={[styles.center, { paddingTop: top }]}>
-        <AppText color="textSecondary">Couldn't load Instagram. Check your connection.</AppText>
+      <SafeAreaView edges={['top', 'bottom']} style={styles.center}>
+        <AppText color="textSecondary">Couldn’t load Instagram. Check your connection.</AppText>
         <Button
           variant="secondary"
           label="Try again"
@@ -59,7 +58,7 @@ export function CleanInstagramScreen() {
             setReloadKey((key) => key + 1);
           }}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 
@@ -73,7 +72,8 @@ export function CleanInstagramScreen() {
   };
 
   return (
-    <View style={[styles.fill, { paddingTop: top, backgroundColor: colors.ground }]}>
+    // The native SafeAreaView includes the tab bar, so Instagram's own bottom bar stays visible.
+    <SafeAreaView edges={['top', 'bottom']} style={[styles.fill, { backgroundColor: colors.ground }]}>
       <WebView
         key={`${reels}-${explore}-${reloadKey}`}
         source={{ uri: HOME }}
@@ -102,7 +102,7 @@ export function CleanInstagramScreen() {
           </AppText>
         </View>
       ) : null}
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -34,7 +34,7 @@ describe('BlockedAppsScreen', () => {
     services.store.getState().startSession();
     await renderWithServices(<BlockedAppsScreen />, services);
 
-    expect(await screen.findByText("Blocked apps can't change during a session.")).toBeOnTheScreen();
+    expect(await screen.findByText("Blocked apps can’t change during a session.")).toBeOnTheScreen();
     expect(screen.getByRole('switch', { name: 'TikTok' })).toBeDisabled();
   });
 

@@ -17,7 +17,7 @@ export function PermissionsScreen() {
   if (!blocker.capabilities.inAppFilters) {
     return (
       <View style={styles.content}>
-        <AppText color="textSecondary">Blocking other apps isn't available on this device.</AppText>
+        <AppText color="textSecondary">Blocking other apps isn’t available on this device.</AppText>
       </View>
     );
   }
@@ -29,32 +29,32 @@ export function PermissionsScreen() {
     <ScrollView contentContainerStyle={styles.content}>
       <View style={styles.block}>
         <AppText>
-          LockedIn uses Android's Accessibility service to see which screen is open in Instagram, YouTube and the apps
-          you block. That's how it closes Reels, Explore and Shorts and blocks apps during a session.
+          LockedIn uses Android’s Accessibility service to see which screen is open in Instagram, YouTube and the apps
+          you block. That’s how it closes Reels, Explore and Shorts and blocks apps during a session.
         </AppText>
         <AppText variant="headline" role="heading">
           What LockedIn reads
         </AppText>
         <AppText color="textSecondary">
           The names of on-screen elements in Instagram, YouTube and your blocked apps. During Strict sessions, also the
-          text of Settings screens, so LockedIn can't be switched off mid-session.
+          text of Settings screens, so LockedIn can’t be switched off mid-session.
         </AppText>
         <AppText color="textSecondary">
-          It never reads your messages or posts. Nothing is stored or sent anywhere: there's no account and no server.
+          It never reads your messages or posts. Nothing is stored or sent anywhere: there’s no account and no server.
         </AppText>
       </View>
 
       <Step
         done={serviceOn}
         title="Accessibility service"
-        detail="In Settings, open Installed apps (or Downloaded apps), choose LockedIn and turn it on. If Android says the setting is restricted, open LockedIn's App info, open the menu and allow restricted settings."
+        detail="In Settings, open Installed apps (or Downloaded apps), choose LockedIn and turn it on. If Android says the setting is restricted, open LockedIn’s App info, open the menu and allow restricted settings."
         action={{ label: serviceOn ? 'Open settings again' : 'Agree and open settings', onPress: blocker.openServiceSettings }}
       />
 
       <Step
         done={batteryOn}
         title="Keep LockedIn running"
-        detail="Some phones stop background services to save battery. Set LockedIn to Unrestricted or Don't optimize."
+        detail="Some phones stop background services to save battery. Set LockedIn to Unrestricted or Don’t optimize."
         action={{ label: 'Open battery settings', onPress: blocker.openBatterySettings }}
       />
 
@@ -94,7 +94,7 @@ function Step({
 }
 
 const styles = StyleSheet.create({
-  content: { padding: space.xl, gap: space.xxl },
+  content: { width: '100%', maxWidth: 560, alignSelf: 'center', padding: space.xl, gap: space.xxl },
   block: { gap: space.md },
   stepTitle: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
   flex: { flex: 1 },

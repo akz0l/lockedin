@@ -79,7 +79,7 @@ describe('CleanInstagramScreen', () => {
     await act(() => {
       webView().onError();
     });
-    expect(screen.getByText("Couldn't load Instagram. Check your connection.")).toBeOnTheScreen();
+    expect(screen.getByText('Couldn’t load Instagram. Check your connection.')).toBeOnTheScreen();
 
     await fireEvent.press(screen.getByRole('button', { name: 'Try again' }));
     expect(screen.getByTestId('instagram-webview')).toBeOnTheScreen();
