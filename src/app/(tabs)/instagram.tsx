@@ -1,6 +1,3 @@
-import { View } from 'react-native';
+import { CleanInstagramScreen } from '@/clean-web/ui/clean-instagram-screen';
 
-// Replaced by the clean Instagram screen in the next work unit.
-export default function InstagramRoute() {
-  return <View />;
-}
+export default CleanInstagramScreen;
