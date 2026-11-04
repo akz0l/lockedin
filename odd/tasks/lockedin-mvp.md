@@ -37,7 +37,7 @@ Plan: `~/.claude/plans/eres-mi-ingeniero-desarrollador-eventual-sunrise.md`
 | T5 | S1, S2, S7, S9 | Screens: Focus (setup + active), custom duration, Filters, Blocked apps, Permissions onboarding | inline | done | jest 64/64 (RED: reapply, battery status, stale countdown 0:11, switch a11y disabled); tsc clean · `1c603b8` |
 | T6 | S2, S9 | iOS clean Instagram WebView with injection | inline | done | RED (module missing) → GREEN; jest 92/92; tsc clean; on-device check pending (no Xcode) · `375aa66` |
 | T7 | S3, S8 | Session-end notification, haptics, polish, impeccable native audit, README, DESIGN.md | inline | done | jest 93/93, tsc, eslint, expo-doctor 20/20; native audit 14/20 (static, no simulator) · `eddbed8`, `6c12147` |
-| T8 | S1, S3 | On-device iOS fixes from the first simulator run: open on Focus, native large titles, Lock in visible | inline | done | RED route test (`/` shared by Focus and Filters) → GREEN; RED `tabStackOptions` missing → GREEN; jest 105/105, tsc, lint; simulator screenshots iPhone 17 Pro Max (iOS 27) · commit pending |
+| T8 | S1, S3 | On-device iOS fixes from the first simulator run: open on Focus, native large titles, Lock in visible | inline | done | RED route test (`/` shared by Focus and Filters) → GREEN; RED `tabStackOptions` missing → GREEN; jest 105/105, tsc, lint; simulator screenshots iPhone 17 Pro Max (iOS 27) · `778898f` (assess medium, under budget) |
 
 Route evidence: no Writer trigger reason (units depend on shared domain/design system; parent writes inline following this logbook).
 
