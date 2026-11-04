@@ -2,7 +2,7 @@
 version: 1
 slug: "src-app-tabs-focus-index-tsx"
 primary_target: "src/app/(tabs)/(focus)/index.tsx"
-related_targets: ["src/app/(tabs)/(filters)/index.tsx","src/app/(tabs)/instagram.tsx","src/app/apps.tsx","src/app/permissions.tsx"]
+related_targets: ["src/app/(tabs)/filters/index.tsx","src/app/(tabs)/instagram.tsx","src/app/apps.tsx","src/app/permissions.tsx"]
 ---
 
 ## Scope

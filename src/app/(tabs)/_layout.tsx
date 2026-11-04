@@ -11,7 +11,7 @@ export default function TabsLayout() {
         <NativeTabs.Trigger.Label>Focus</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon sf={{ default: 'lock', selected: 'lock.fill' }} md="lock" />
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="(filters)">
+      <NativeTabs.Trigger name="filters">
         <NativeTabs.Trigger.Label>Filters</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon sf="line.3.horizontal.decrease" md="filter_alt" />
       </NativeTabs.Trigger>

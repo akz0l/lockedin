@@ -110,7 +110,6 @@ export function FocusScreen() {
                 : 'App blocking is not available on this device.'}
             </AppText>
           )}
-          <View style={styles.spacer} />
           <Button label="Lock in" onPress={lockIn} hint={`Starts a ${preferences.durationMinutes}-minute focus session`} />
         </>
       )}
@@ -141,7 +140,6 @@ function useInstalledApps(enabled: boolean): InstalledApp[] {
 }
 
 const styles = StyleSheet.create({
-  content: { flexGrow: 1, width: '100%', maxWidth: 560, alignSelf: 'center', padding: space.lg, paddingBottom: space.xxl, gap: space.xxl },
+  content: { width: '100%', maxWidth: 560, alignSelf: 'center', padding: space.lg, paddingBottom: space.xxl, gap: space.xxl },
   status: { gap: space.xs },
-  spacer: { flexGrow: 1 },
 });
